@@ -1,0 +1,28 @@
+Negative positive pairs
+
+codestudio by coding ninja
+
+Problem statement--
+
+Given an array of distinct integers, find all the pairs having positive value and negative value of a number that exists in the array. Return the pairs in any order.
+
+code--
+
+#include <bits/stdc++.h> 
+vector<pair<int, int>> pairs(vector<int> &arr, int n) {
+    
+    sort(arr.begin(),arr.end());
+    vector<pair<int,int>>ans;
+    int i=0;
+        while(arr[i]<0){
+            bool r=binary_search(arr.begin(),arr.end(),(abs(arr[i])));
+           if(r==1){
+               ans. push_back (make_pair (arr[i], abs(arr[i])));
+           }
+        
+       i++;
+    }
+        
+
+    return ans;
+}

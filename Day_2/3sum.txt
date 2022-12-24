@@ -1,0 +1,78 @@
+3SUM
+codiostudio by codingninja
+
+
+problem Statement--
+
+You are given an array/list ARR consisting of N integers. Your task is to find all the distinct triplets present in the array which adds up to a given number K.
+An array is said to have a triplet {ARR[i], ARR[j], ARR[k]} with sum = 'K' if there exists three indices i, j and k such that i!=j, j!=k and i!=j and ARR[i] + ARR[j] + ARR[k] = 'K'.
+
+code--
+
+// this code is correct but TLE
+
+#include <bits/stdc++.h> 
+#include<set>
+vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
+	 set<vector<int>>visited;
+    vector<vector<int>>ans;
+    for(int i=0;i<arr.size();i++){
+        
+        for(int j=i+1;j<arr.size();j++){
+            
+            for(int k=j+1;k<arr.size();k++){
+                
+                if(arr[i]+arr[j]+arr[k]==K){
+                    vector<int>temp;
+                    temp.push_back(arr[i]);
+                    temp.push_back(arr[j]);
+                    temp.push_back(arr[k]);
+                    sort(temp.begin(), temp.end());
+                    if (visited.find(temp) == visited.end()) {
+                        ans.push_back(temp);
+                        visited.insert(temp);
+                }
+            }
+        }
+    }
+}
+       return ans;
+}
+
+//correct code
+
+#include <bits/stdc++.h> 
+vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
+	// Write your code here.
+    sort(arr.begin(), arr.end());
+   
+   vector<vector<int>> ans;
+   
+   for(int i=0; i<arr.size()-2; i++) {
+       
+       if (i==0 || (i>0 && arr[i] != arr[i-1])) {
+           
+           int lo = i+1, hi = arr.size()-1, sum = K - arr[i];
+           
+           while (lo<hi) {
+               if (arr[lo] + arr[hi] == sum) {
+                   
+                   vector<int> temp;
+                   temp.push_back(arr[i]);
+                   temp.push_back(arr[lo]);
+                   temp.push_back(arr[hi]);
+                   ans.push_back(temp);
+                   
+                   while (lo < hi && arr[lo] == arr[lo+1]) lo++;
+                   while (lo > hi && arr[hi] == arr[hi-1]) hi--;
+                   
+                   lo++; hi--;           
+               }
+               else if (arr[lo] + arr[hi] < sum) lo++;
+               else hi--;
+           }
+       }
+   }
+   return ans;     
+
+}
